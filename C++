@@ -58,3 +58,179 @@ int main() {
     cout << "Balance: " << account.getBalance() << endl;
 }
 
+Question 3 : What is Inheritance? Explain with Example.
+Inheritance allows one class (child or derived class) to inherit attributes and behaviors (methods) from another class (parent or base class).
+
+Example:
+#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    void eat() { cout << "Eating..." << endl; }
+};
+
+class Dog : public Animal {  // Dog inherits Animal
+public:
+    void bark() { cout << "Barking..." << endl; }
+};
+
+int main() {
+    Dog myDog;
+    myDog.eat();  // Inherited method
+    myDog.bark();
+}
+
+Question 4 : Explain Polymorphism with Examples.
+
+Polymorphism allows methods to do different things based on the object type or input. In C++, polymorphism can be achieved through function overloading, operator 
+overloading, and virtual functions.
+
+Example (Virtual Functions):
+#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void sound() { cout << "Animal Sound" << endl; }
+};
+
+class Dog : public Animal {
+public:
+    void sound() override { cout << "Woof Woof" << endl; }
+};
+
+int main() {
+    Animal* animal = new Dog();  // Polymorphic call
+    animal->sound();  // Outputs "Woof Woof" due to runtime binding
+    delete animal;
+}
+
+Question 5 : What is Abstraction? Explain with Example.
+
+Abstraction in C++ is the concept of exposing only the essential details to the user, while hiding complex details.
+
+Example : 
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Circle {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+    double getArea() const { return M_PI * radius * radius; }  // Abstracted calculation
+};
+
+int main() {
+    Circle circle(5.0);
+    cout << "Area of circle: " << circle.getArea() << endl;
+}
+
+Question 6 : What is the difference between a Class and an Object?
+
+Class: Blueprint or template for creating objects. It defines data members and methods.
+
+Object: Instance of a class that can store data and use methods.
+
+Example:
+#include <iostream>
+using namespace std;
+
+class Car {
+public:
+    void start() { cout << "Car started" << endl; }
+};
+
+int main() {
+    Car myCar;  // Object of class Car
+    myCar.start();
+}
+Question 7: Explain Constructor and Destructor in C++.
+
+Constructor: Special member function that initializes an object.
+Destructor: Special member function that cleans up when an object is deleted or goes out of scope.
+
+Example:
+#include <iostream>
+using namespace std;
+
+class Book {
+public:
+    Book() { cout << "Constructor called" << endl; }
+    ~Book() { cout << "Destructor called" << endl; }
+};
+
+int main() {
+    Book myBook;  // Constructor called here
+}  // Destructor called here when myBook goes out of scope
+
+
+Question 8 : What is Function Overloading in C++?
+Function overloading allows multiple functions to have the same name with different parameters.
+
+Example:
+#include <iostream>
+using namespace std;
+
+class Print {
+public:
+    void display(int i) { cout << "Integer: " << i << endl; }
+    void display(double d) { cout << "Double: " << d << endl; }
+};
+
+int main() {
+    Print print;
+    print.display(5);
+    print.display(5.5);
+}
+Question 9 : What is Operator Overloading?
+Operator overloading allows operators to be defined for user-defined types, enabling intuitive expressions with custom objects.
+
+Example:
+#include <iostream>
+using namespace std;
+
+class Complex {
+public:
+    int real, imag;
+
+    Complex(int r, int i) : real(r), imag(i) {}
+
+    Complex operator+(const Complex &other) {
+        return Complex(real + other.real, imag + other.imag);
+    }
+
+    void display() { cout << real << " + " << imag << "i" << endl; }
+};
+
+int main() {
+    Complex a(1, 2), b(3, 4);
+    Complex c = a + b;  // Using overloaded + operator
+    c.display();
+}
+
+Question 10 : Explain Virtual Functions and Pure Virtual Functions.
+Virtual Function: A function in a base class that can be overridden in derived classes, supporting runtime polymorphism.
+Pure Virtual Function: A function declared in a base class with no implementation, forcing derived classes to implement it.
+
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void draw() = 0;  // Pure virtual function
+};
+
+class Square : public Shape {
+public:
+    void draw() override { cout << "Drawing Square" << endl; }
+};
+
+int main() {
+    Shape* shape = new Square();
+    shape->draw();
+    delete shape;
+}
