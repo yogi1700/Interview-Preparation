@@ -544,6 +544,110 @@ public:
     DeepCopy(const char* str) {
        
 
-Question 25 : 
+Question 25 : Why we can create the object of abstract class or interface class? what is use of virtual tables?
+Abstract classes and interfaces cannot be instantiated directly because they are incomplete by design, intended to serve as templates or contracts for other 
+classes. However, it may appear as though they’re instantiated due to:
+
+Polymorphism: You can create an instance of a subclass that implements the abstract methods, then reference it as the abstract class or interface type.
+
+Anonymous Classes: Some languages allow creating an anonymous subclass on the fly that implements abstract methods.
+
+What is a VTable?
+A VTable (virtual table) is a data structure that holds pointers to virtual methods of a class. Each class with virtual methods has its own VTable, 
+which allows the runtime to determine the correct method to call based on the actual object type, even if it's referenced by a base class pointer or reference.
+
+When is a VTable Created?
+A VTable is created for any class that has virtual methods, whether it's an abstract class or a regular class. When a class inherits from another class with 
+virtual methods, the derived class has its own VTable, which may contain pointers to overridden methods.
+
+An abstract class often contains virtual (or abstract) methods without implementation, requiring derived classes to implement them. When a derived class 
+implements these methods, the VTable helps dynamically bind the correct method at runtime.
 
 
+Example:
+#include <iostream>
+using namespace std;
+
+// Abstract base class with a pure virtual method
+class Shape {
+public:
+    virtual void draw() = 0;  // Pure virtual method (abstract)
+};
+
+// Derived class implementing the pure virtual method
+class Circle : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing a Circle" << endl;
+    }
+};
+
+// Derived class implementing the pure virtual method
+class Square : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing a Square" << endl;
+    }
+};
+
+int main() {
+    Shape* shape1 = new Circle();  // Upcasting to abstract class type
+    Shape* shape2 = new Square();  // Upcasting to abstract class type
+
+    shape1->draw();  // Calls Circle::draw via VTable
+    shape2->draw();  // Calls Square::draw via VTable
+
+    delete shape1;
+    delete shape2;
+    return 0;
+}
+
+Explanation of VTable Creation in this Example
+Abstract Class (Shape): The Shape class has a pure virtual function draw(). This makes Shape an abstract class, meaning you cannot instantiate it directly.
+Derived Classes (Circle and Square): Both Circle and Square classes override the draw() method. When these classes are compiled, the compiler creates a VTable 
+for each.
+VTable for Dynamic Dispatch: When you call shape1->draw() and shape2->draw(), the VTable allows the program to decide at runtime whether to call 
+Circle::draw or Square::draw, based on the actual object type.
+
+Key Takeaway
+VTables are created for any class with virtual functions to enable polymorphic behavior. Abstract classes typically have virtual functions, 
+but it is not the abstract class itself that creates the VTable—it's the presence of virtual methods (either pure or overridden) that necessitates 
+the VTable for runtime dispatch.
+
+
+Question 26: Which language is more faster compare Java or C++?
+When it comes to execution speed, C++ is generally faster than Java and most other high-level programming languages. The main reasons for this are due to differences in compilation, memory management, and runtime execution models.
+
+Here’s a breakdown of why C++ tends to be faster than Java:
+
+1. Compilation: Native Code vs. Bytecode
+C++: C++ code is compiled directly into machine code for a specific platform by the compiler. This results in an executable that can be run directly by the CPU,
+which is fast because it doesn’t require a runtime environment.
+Java: Java is compiled into bytecode, which is platform-independent and executed by the Java Virtual Machine (JVM). The JVM interprets or just-in-time (JIT) 
+compiles this bytecode at runtime, adding an extra layer that can slow down execution slightly compared to C++.
+2. Memory Management: Manual vs. Garbage Collection
+C++: C++ allows for manual memory management, giving developers control over memory allocation and deallocation. With careful coding, this can lead to faster and
+more efficient memory usage because there’s no background garbage collection.
+Java: Java uses automatic garbage collection, which helps prevent memory leaks but also introduces overhead. The JVM periodically pauses to reclaim memory, which 
+can cause latency (known as “stop-the-world” pauses), impacting performance.
+3. Runtime Overhead and Optimization
+C++: C++ executables don’t require a runtime environment, so there is no runtime overhead, resulting in faster startup and execution.
+Java: Java relies on the JVM, which requires initialization and adds overhead through its runtime services, like security checks, bytecode verification, and
+just-in-time (JIT) compilation. However, Java’s JIT can optimize frequently used code paths, making long-running applications quite fast after warm-up.
+4. Standard Library Efficiency
+C++: The Standard Template Library (STL) in C++ is highly optimized for performance, with minimal overhead.
+Java: While Java’s standard library is also optimized, it generally involves more abstraction layers, adding some overhead compared to C++.
+5. Language Features
+C++: Low-level features like pointers, inline assembly, and direct memory manipulation give C++ an edge in terms of raw performance.
+Java: While Java offers features like concurrency and platform independence, its high-level abstractions tend to incur more runtime costs.
+Other Comparisons
+Python, JavaScript, Ruby: These interpreted languages are generally slower than both Java and C++ because they run in interpreted environments or have additional 
+runtime overhead, though JIT and other optimizations exist in modern interpreters.
+When to Choose Java over C++
+Although C++ is generally faster, Java is often preferred for applications that need cross-platform compatibility, rapid development, and ease of maintenance. 
+Java's performance, particularly for server-side and long-running applications, can approach C++ speeds due to JVM optimizations.
+
+Summary
+C++ is typically faster than Java because it compiles directly to machine code, allows manual memory management, and has no runtime overhead. However, 
+Java’s portability, ease of use, and modern JIT optimizations make it competitive for many applications. The choice between them often depends on the 
+specific requirements of the application.
